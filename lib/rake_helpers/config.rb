@@ -1,3 +1,5 @@
+require 'singleton'
+
 module MP
   class Config
     include Singleton
