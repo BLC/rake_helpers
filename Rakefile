@@ -13,7 +13,7 @@ Hoe.plugin :newgem
 $hoe = Hoe.spec 'rake_helpers' do
   self.developer 'moneypools', 'support@mymoneypools.com'
   self.rubyforge_name       = self.name # TODO this is default value
-  self.extra_deps         = [['activesupport','>= 2.2.2']]
+  # self.extra_deps         = [['activesupport','>= 2.2.2']]
 end
 
 require 'newgem/tasks'

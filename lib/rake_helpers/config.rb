@@ -1,5 +1,3 @@
-require 'active_support'
-
 module MP
   class Config
     include Singleton
@@ -37,7 +35,7 @@ module MP
       end
 
       def read(*args)
-        required = args.empty? ? @required : args.first
+        required = args.empty? ? @required : args[0]
         value = fetch(nil)
         
         raise OptionNotGivenError.new(message) if value.nil? && required
@@ -57,7 +55,7 @@ module MP
         # lookup each variant of the key
         all_possible_values = hash.values_at(*name_variants)
         # grab the first non-nil value out of the possible values
-        all_possible_values.compact.first
+        all_possible_values.compact[0]
       end
     end
 
@@ -102,7 +100,7 @@ module MP
     end
 
     def expose_as_method
-      method_name = self.class.name.underscore
+      method_name = underscore(self.class.name)
       config_class = self
       Object.class_eval do
         define_method(method_name) do
@@ -111,16 +109,19 @@ module MP
       end
     end
 
-    # def merge(more_overrides)
-    #   self.class.new(@overrides.to_hash.merge(more_overrides))
-    # end
-    # 
-    # def reverse_merge(more_overrides)
-    #   self.class.new(@overrides.to_hash.reverse_merge(more_overrides))
-    # end
-    # 
-    # def to_hash
-    #   @overrides.to_hash
-    # end
+    # The reverse of +camelize+. Makes an underscored, lowercase form from the expression in the string.
+    #
+    # Changes '::' to '/' to convert namespaces to paths.
+    #
+    # Examples:
+    #   "ActiveRecord".underscore         # => "active_record"
+    #   "ActiveRecord::Errors".underscore # => active_record/errors
+    def underscore(camel_cased_word)
+      camel_cased_word.to_s.gsub(/::/, '/').
+        gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+        gsub(/([a-z\d])([A-Z])/,'\1_\2').
+        tr("-", "_").
+        downcase
+    end
   end
 end

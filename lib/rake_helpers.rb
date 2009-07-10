@@ -5,5 +5,5 @@ require 'rake_helpers/config'
 require 'rake_helpers/erb_helper'
 
 module RakeHelpers
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
 end
