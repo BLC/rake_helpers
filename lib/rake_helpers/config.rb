@@ -10,10 +10,10 @@ module MP
     class Option
       attr_reader :attribute, :name, :message, :default
 
-      def initialize(attribute, options, &block)
+      def initialize(attribute, overrides, options, &block)
         @attribute = attribute
         
-        @overrides = ENV
+        @overrides = overrides
         @default = options[:default]
         @name = options.fetch(:name, attribute).to_s
         @message = options.fetch(:message, "Must specify #{attribute} with #{name}=")
@@ -33,7 +33,7 @@ module MP
       end
 
       def fetch(local_default)
-        value = fetch_from(@overrides) || fetch_from(MP::Config.global_settings) || @value || local_default || default
+        value = fetch_from_overrides || @value || local_default || default
         @parser ? @parser.call(value) : value
       end
 
@@ -47,6 +47,11 @@ module MP
       end
 
       private
+      def fetch_from_overrides
+        # grab the first hit
+        @overrides.map { |overrides| fetch_from(overrides) }.compact[0]
+      end
+
       def name_variants
         key = name.to_s
 
@@ -67,7 +72,8 @@ module MP
     end
 
     def self.global_settings_file=(file)
-      @global_settings = Yaml.load(File.read(file))
+      @global_settings = YAML.load(File.read(file))
+      @global_settings
     end
 
     def self.global_settings
@@ -79,7 +85,7 @@ module MP
     end
 
     def add(attribute, options={}, &block)
-      option = Option.new(attribute, options, &block)
+      option = Option.new(attribute, [ENV, configuration_settings], options, &block)
       
       @attributes[option.name] = option
       
@@ -118,6 +124,14 @@ module MP
           config_class
         end
       end
+    end
+
+    def configuration_settings
+      MP::Config.global_settings[settings_key] ||= {}
+    end
+
+    def settings_key
+      @settings_key ||= underscore(self.class.name).split('_')[0]
     end
 
     # The reverse of +camelize+. Makes an underscored, lowercase form from the expression in the string.
