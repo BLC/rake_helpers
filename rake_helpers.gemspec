@@ -6,28 +6,42 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["moneypools"]
-  s.date = %q{2009-07-10}
-  s.description = %q{FIX (describe your package)}
-  s.email = ["support@mymoneypools.com"]
-  s.extra_rdoc_files = ["History.txt", "Manifest.txt"]
-  s.files = ["History.txt", "Manifest.txt", "README.rdoc", "Rakefile", "lib/rake_helpers.rb", "lib/rake_helpers/erb_helper.rb", "lib/rake_helpers/config.rb", "spec/rake_helpers_spec.rb", "spec/spec.opts", "spec/spec_helper.rb"]
-  s.homepage = %q{http://github.com/#{github_username}/#{project_name}}
-  s.rdoc_options = ["--main", "README.rdoc"]
+  s.date = %q{2009-07-15}
+  s.email = %q{support@mymoneypools.com}
+  s.files = [
+    ".gitignore",
+     "History.txt",
+     "Rakefile",
+     "VERSION",
+     "lib/rake_helpers.rb",
+     "lib/rake_helpers/config.rb",
+     "lib/rake_helpers/erb_helper.rb",
+     "rake_helpers.gemspec",
+     "script/console",
+     "script/destroy",
+     "script/generate",
+     "spec/rake_helpers_spec.rb",
+     "spec/spec.opts",
+     "spec/spec_helper.rb",
+     "tasks/rspec.rake"
+  ]
+  s.homepage = %q{http://github.com/moneypools/rake_helpers}
+  s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubyforge_project = %q{rake_helpers}
-  s.rubygems_version = %q{1.3.3}
-  s.summary = %q{FIX (describe your package)}
+  s.rubygems_version = %q{1.3.4}
+  s.summary = %q{Some extensions to sprout}
+  s.test_files = [
+    "spec/rake_helpers_spec.rb",
+     "spec/spec_helper.rb"
+  ]
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<hoe>, [">= 2.3.2"])
     else
-      s.add_dependency(%q<hoe>, [">= 2.3.2"])
     end
   else
-    s.add_dependency(%q<hoe>, [">= 2.3.2"])
   end
 end

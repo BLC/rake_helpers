@@ -1,3 +1,4 @@
+require 'yaml'
 require 'singleton'
 
 module MP
@@ -32,7 +33,7 @@ module MP
       end
 
       def fetch(local_default)
-        value = fetch_from(@overrides) || @value || local_default || default
+        value = fetch_from(@overrides) || fetch_from(MP::Config.global_settings) || @value || local_default || default
         @parser ? @parser.call(value) : value
       end
 
@@ -63,6 +64,14 @@ module MP
 
     def self.configure
       yield instance
+    end
+
+    def self.global_settings_file=(file)
+      @global_settings = Yaml.load(File.read(file))
+    end
+
+    def self.global_settings
+      @global_settings ||= {}
     end
 
     def initialize
