@@ -149,4 +149,38 @@ module MP
         downcase
     end
   end
+
+  class FlexConfig < Config
+    def initialize(*args)
+      super
+      add_extra_params
+    end
+
+    def swf(file_name)
+      File.expand_path("#{file_name}.swf", swf_output_path)
+    end
+
+    def player_global_path
+      player_global_paths = ["#{flex_sdk_path}/frameworks/libs/player/10/playerglobal.swc",
+                             "#{flex_sdk_path}/frameworks/libs/player/playerglobal.swc"]
+      player_global_paths.detect do |path|
+        File.exist?(path)
+      end
+    end
+
+    private
+    def add_extra_params
+      add(:flex_sdk_path, :name => 'flex_sdk',
+                          :default => Proc.new do
+                            if mxmlc_bin_path = %x(which mxmlc)
+                              # /.../sdk_root/bin/mxmlc => /.../sdk_root
+                              File.expand_path(File.join(File.dirname(mxmlc_bin_path), '..'))
+                            else
+                              "/Applications/Adobe Flex Builder 3/sdks/3.0.0"
+                            end
+                          end)
+      add(:swf_output_path, :name => 'swf_output',
+                            :default => 'bin')
+    end
+  end
 end
