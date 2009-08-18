@@ -10,8 +10,9 @@ module MP
     class Option
       attr_reader :attribute, :name, :message, :default
 
-      def initialize(attribute, overrides, options, &block)
+      def initialize(attribute, config_instance, overrides, options, &block)
         @attribute = attribute
+        @config_instance = config_instance
         
         @overrides = overrides
         @default = options[:default]
@@ -25,7 +26,7 @@ module MP
       end
 
       def default
-        @default.is_a?(Proc) ? @default.call : @default
+        @default.is_a?(Proc) ? @default.call(@config_instance) : @default
       end
 
       def write(value)
@@ -85,7 +86,7 @@ module MP
     end
 
     def add(attribute, options={}, &block)
-      option = Option.new(attribute, [ENV, configuration_settings], options, &block)
+      option = Option.new(attribute, self, [ENV, configuration_settings], options, &block)
       
       @attributes[option.name] = option
       
