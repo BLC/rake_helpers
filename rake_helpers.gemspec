@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["moneypools"]
-  s.date = %q{2009-08-18}
+  s.date = %q{2009-08-20}
   s.email = %q{support@mymoneypools.com}
   s.files = [
     ".gitignore",
