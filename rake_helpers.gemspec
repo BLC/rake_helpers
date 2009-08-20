@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rake_helpers}
-  s.version = "0.0.7"
+  s.version = "0.0.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["moneypools"]
@@ -14,8 +14,10 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "lib/rake_helpers.rb",
+     "lib/rake_helpers/build_info.rb",
      "lib/rake_helpers/config.rb",
      "lib/rake_helpers/erb_helper.rb",
+     "lib/rake_helpers/tasks/build_info_task.rb",
      "rake_helpers.gemspec",
      "script/console",
      "script/destroy",
