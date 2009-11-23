@@ -4,8 +4,8 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "#{ENV['github'] ? 'moneypools-' : ''}rake_helpers"
-    gem.summary = %Q{Some extensions to sprout}
+    gem.name = "moneypools-rake_helpers"
+    gem.summary = %Q{Some rake extras}
     gem.email = "support@mymoneypools.com"
     gem.homepage = "http://github.com/moneypools/rake_helpers"
     gem.authors = ["moneypools"]
